@@ -116,12 +116,13 @@ jobs:
             && cmd //c "${{ steps.sofa.outputs.vs_vsdevcmd }} \
             && cd /d $GITHUB_WORKSPACE/build_release \
             && cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DUSE_BLAS_FOR_OPTIMUS=0 \
+            -DCMAKE_INSTALL_PREFIX=${{ env.WORKSPACE_INSTALL_PATH }} \
             -DCMAKE_PREFIX_PATH="$SOFA_ROOT/build_release/install";$EIGEN_INSTALL_DIR/build_release .. \
             && ninja install"
           else
             mkdir $GITHUB_WORKSPACE/build_release
             cd $GITHUB_WORKSPACE/build_release
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=$SOFA_ROOT/build_release/install ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=${{ env.WORKSPACE_INSTALL_PATH }} -DCMAKE_PREFIX_PATH=$SOFA_ROOT/build_release/install ..
             make -j 8
             make install
           fi
